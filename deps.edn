@@ -1,0 +1,34 @@
+{:deps {com.monkeyprojects/oci-sign {:mvn/version "0.1.0-SNAPSHOT"}
+        buddy/buddy-sign {:mvn/version "3.5.346"}}
+ 
+ :aliases
+ {:dev
+  {:extra-paths ["dev-resources"]}
+
+  :test
+  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.1.1"}
+                ch.qos.logback/logback-classic {:mvn/version "1.4.8"}}
+   :extra-paths ["test" "dev-resources"]
+   :exec-fn monkey.test/all}
+
+  :watch
+  {:exec-fn monkey.test/watch}
+  
+  :junit
+  {:exec-fn monkey.test/junit}
+
+  :coverage
+  {:exec-fn monkey.test/coverage
+   :exec-args {:ns-regex ["monkey.oci.os.*"]}}
+
+  :jar
+  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.1.1"}
+                ch.qos.logback/logback-classic {:mvn/version "1.4.8"}}
+   :exec-fn monkey.build/jar
+   :exec-args {:jar "target/oci-common.jar"
+               :lib "com.monkeyprojects/oci-common"
+               :version "0.1.0-SNAPSHOT"
+               :scm {:url "https://github.com/monkey-projects/oci-common"}}}
+
+  :deploy
+  {:exec-fn monkey.build/deploy}}}
