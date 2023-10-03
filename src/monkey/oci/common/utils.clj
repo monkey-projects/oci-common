@@ -34,7 +34,7 @@
 (defn- make-request-fn
   "Creates a request function for the given request id.  The
    function takes the context (created using `make-context`) and
-   any parameters.  Which parameters are accepted depend on the
+   any parameters.  Which parameters are accepted depends on the
    route definition."
   [id endpoint-fn]
   (fn [ctx & [params]]

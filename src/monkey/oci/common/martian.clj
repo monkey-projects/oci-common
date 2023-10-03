@@ -1,6 +1,8 @@
 (ns monkey.oci.common.martian
-  (:require [martian
+  (:require [camel-snake-kebab.core :as csk]
+            [martian
              [core :as martian]
+             [encoders :as me]
              [httpkit :as martian-http]
              [interceptors :as mi]]
             [monkey.oci.sign.martian :as sm]))
@@ -16,6 +18,6 @@
    routes
    {:interceptors (concat martian/default-interceptors
                           [mi/default-encode-body
-                           mi/default-coerce-response
+                           (mi/coerce-response (me/default-encoders csk/->kebab-case-keyword))
                            (sm/signer conf)
                            martian-http/perform-request])}))

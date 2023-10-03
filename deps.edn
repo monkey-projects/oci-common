@@ -1,7 +1,8 @@
 {:deps {com.monkeyprojects/oci-sign {:mvn/version "0.1.0-SNAPSHOT"}
         com.github.oliyh/martian-httpkit {:mvn/version "0.1.24"}
         http-kit/http-kit {:mvn/version "2.6.0"}
-        buddy/buddy-sign {:mvn/version "3.5.346"}}
+        buddy/buddy-sign {:mvn/version "3.5.346"}
+        camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}}
  
  :aliases
  {:dev
