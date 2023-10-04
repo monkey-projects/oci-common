@@ -21,13 +21,14 @@
 
 (defn paged-request
   "Wraps the given client request in a paged request, suitable to be passed on to
-   `paginate`.  The input `f` is assumed to be a single-arity function that accepts
+   `paginate`.  The input `f` is assumed to be an n-arity function that accepts
    request parameters and returns a `deref`-able response.  Typically this will be 
    some function that is exposed by the OCI libraries, and that accepts the Martian 
-   context and an extra arguments map.
+   context and an extra arguments map.  The arity of the function is at least one,
+   or the size of `args`.
    If extra arguments are given, they are passed to `f`.  If a page is passed into
    the request fn, it is `assoc`-ed into the last argument.
-   Note that this does not handle error responses."
+   Note that this does not handle error responses, that's up to `f`."
   [f & args]
   (let [opts (last args)
         t (apply partial f (butlast args))]
