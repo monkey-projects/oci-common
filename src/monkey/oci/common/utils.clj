@@ -2,7 +2,8 @@
   (:require [buddy.core.keys.pem :as pem]
             [clojure.java.io :as io])
   (:import java.util.Base64
-           java.io.StringReader))
+           java.io.StringReader
+           java.security.KeyPairGenerator))
 
 (set! *warn-on-reflection* true)
 
@@ -30,6 +31,14 @@
   [^String src]
   (with-open [r (->reader src)]
     (pem/read-privkey r nil)))
+
+(defn generate-key
+  "Generates a new private key.  Useful for testing."
+  []
+  (-> (doto (KeyPairGenerator/getInstance "RSA")
+        (.initialize 2048))
+      (.generateKeyPair)
+      (.getPrivate)))
 
 (defn- make-request-fn
   "Creates a request function for the given request id.  The
