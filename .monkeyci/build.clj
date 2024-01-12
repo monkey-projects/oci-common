@@ -1,3 +1,3 @@
-(require '[com.monkeyci.plugin.clj :as p])
+(require '[monkey.ci.plugin.clj :as p])
 
 (p/deps-library)

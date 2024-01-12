@@ -5,6 +5,7 @@
   <groupId>com.monkeyprojects</groupId>
   <artifactId>oci-common</artifactId>
   <name>oci-common</name>
+  <version>0.1.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
   </build>
