@@ -4,6 +4,8 @@ This is a Clojure library that is used by the other Monkey Projects OCI
 libs for common functionality.  Usually utility functions but also some
 [Martian](https://github.com/oliyh/martian) stuff too.
 
+[![Clojars Project](https://img.shields.io/clojars/v/com.monkeyprojects/oci-common.svg)](https://clojars.org/com.monkeyprojects/oci-common)
+
 ## Usage
 
 Normally you won't need this directly, it's referenced by libs that use it
