@@ -45,6 +45,30 @@
                                :test-context {})]
       (is (= :test-context (r nil))))))
 
+(deftest paged-request-sync
+  (testing "returns a fn"
+    (is (fn? (sut/paged-request-sync (constantly {})))))
+  
+  (testing "invokes and derefs target call"
+    (let [r (sut/paged-request-sync (constantly :test-response))]
+      (is (= :test-response (r nil)))))
+
+  (testing "passes extra args to `f`"
+    (let [r (sut/paged-request-sync identity
+                                    {:key "value"})]
+      (is (= {:key "value"} (r nil)))))
+
+  (testing "passes page to `f`"
+    (let [r (sut/paged-request-sync identity
+                                    {:key "value"})]
+      (is (= "test page" (:page (r "test page"))))))
+
+  (testing "passes additional arguments to `f`"
+    (let [r (sut/paged-request-sync (fn [ctx _]
+                                      ctx)
+                                    :test-context {})]
+      (is (= :test-context (r nil))))))
+
 (deftest paged-route
   (testing "adds `query-schema` to the route"
     (is (map? (:query-schema (sut/paged-route {})))))
