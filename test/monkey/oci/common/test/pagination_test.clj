@@ -53,6 +53,15 @@
     (let [r (sut/paged-request-sync (constantly :test-response))]
       (is (= :test-response (r nil)))))
 
+  (testing "only calls target when pagination fn is called"
+    (let [inv? (atom false)
+          f (fn [_]
+              (reset! inv? true))
+          p (sut/paged-request-sync f)]
+      (is (false? @inv?))
+      (is (some? (p nil)))
+      (is (true? @inv?))))
+
   (testing "passes extra args to `f`"
     (let [r (sut/paged-request-sync identity
                                     {:key "value"})]
