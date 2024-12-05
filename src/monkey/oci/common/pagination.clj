@@ -19,6 +19,15 @@
          (seq)
          (mapcat identity))))
 
+(defn paged-request-sync
+  "Similar to `paged-request` but for functions that do not return a `deref`able value."
+  [f & args]
+  (let [opts (last args)
+        t (apply partial f (butlast args))]
+    (fn [page]
+      (t (cond-> opts
+           page (assoc :page page))))))
+
 (defn paged-request
   "Wraps the given client request in a paged request, suitable to be passed on to
    `paginate`.  The input `f` is assumed to be an n-arity function that accepts
@@ -30,11 +39,7 @@
    the request fn, it is `assoc`-ed into the last argument.
    Note that this does not handle error responses, that's up to `f`."
   [f & args]
-  (let [opts (last args)
-        t (apply partial f (butlast args))]
-    (fn [page]
-      (deref (t (cond-> opts
-                  page (assoc :page page)))))))
+  (apply paged-request-sync (comp deref f) args))
 
 (defn paged-route
   "Adds pagination query arguments to the route schema"
