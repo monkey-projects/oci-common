@@ -1,4 +1,4 @@
-{:deps {com.monkeyprojects/oci-sign {:mvn/version "0.1.4-SNAPSHOT"}
+{:deps {com.monkeyprojects/oci-sign {:mvn/version "0.1.5-SNAPSHOT"}
         com.github.oliyh/martian-httpkit {:mvn/version "0.1.30"}
         http-kit/http-kit {:mvn/version "2.8.0"}
         buddy/buddy-sign {:mvn/version "3.6.1-359"}
@@ -8,34 +8,46 @@
  {:dev
   {:extra-paths ["dev-resources"]}
 
+  ;; clj -X:test
   :test
-  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.2.0"}
-                ch.qos.logback/logback-classic {:mvn/version "1.5.16"}
+  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.3.1"}
+                ch.qos.logback/logback-classic {:mvn/version "1.5.18"}
                 http-kit.fake/http-kit.fake {:mvn/version "0.2.2"}}
    :extra-paths ["test" "dev-resources"]
    :exec-fn monkey.test/all}
 
+  ;; clj -X:test:watch
   :watch
   {:exec-fn monkey.test/watch}
   
+  ;; clj -X:test:junit
   :junit
   {:exec-fn monkey.test/junit}
 
+  ;; clj -X:test:coverage
   :coverage
   {:exec-fn monkey.test/coverage
    :exec-args {:ns-regex ["monkey.oci.os.*"]}}
 
+  ;; clj -X:jar
   :jar
-  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.2.0"}
-                ch.qos.logback/logback-classic {:mvn/version "1.5.16"}}
+  {:extra-deps {com.monkeyprojects/build {:mvn/version "0.3.1"}
+                ch.qos.logback/logback-classic {:mvn/version "1.5.18"}}
    :exec-fn monkey.build/jar
    :exec-args {:jar "target/oci-common.jar"
                :lib "com.monkeyprojects/oci-common"
-               :version-env "LIB_VERSION"
-               :scm {:url "https://github.com/monkey-projects/oci-common"}}}
+               :version [[:env "LIB_VERSION"] "0.2.2-SNAPSHOT"]
+               :scm {:url "https://github.com/monkey-projects/oci-common"}
+               :pom-data
+               [[:licenses
+                 [:license
+                  [:name "MIT"]
+                  [:url "https://mit-license.org/"]]]]}}
 
+  ;; clj -X:jar:install
   :install
   {:exec-fn monkey.build/jar+install}
 
+  ;; clj -X:jar:publish
   :publish
   {:exec-fn monkey.build/jar+deploy}}}
